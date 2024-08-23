@@ -2,6 +2,7 @@
 
 import Section1 from "@/components/Section1";
 import Section2 from "@/components/Section2";
+import Section3 from "@/components/Section3";
 import Reviews from "../components/Reviews";
 
 export default function Home() {
@@ -21,6 +22,8 @@ export default function Home() {
         <h1 className="text-4xl font-bold">Today</h1>
       </section>
       <Section2 />
+      <Section3 />
+
       <Reviews />
 
       <section
