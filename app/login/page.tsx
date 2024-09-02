@@ -11,8 +11,6 @@ export default function Login() {
     // 여기서 로그인 로직을 처리합니다.
     console.log("Email:", email);
     console.log("Password:", password);
-
-    // 실제로는 서버에 로그인 요청을 보내거나 상태를 업데이트하는 등의 작업을 합니다.
   };
 
   return (
