@@ -1,9 +1,12 @@
 "use client";
+
+import React from "react";
+
 export default function Login() {
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const email = e.target.email.value;
-    const password = e.target.password.value;
+    const email = e.currentTarget.email.value;
+    const password = e.currentTarget.password.value;
 
     // 여기서 로그인 로직을 처리합니다.
     console.log("Email:", email);
