@@ -23,7 +23,9 @@ describe("Footer", () => {
   test("allows text input in email field", () => {
     render(<Footer />);
 
-    const emailInput = screen.getByPlaceholderText(/Email address/i);
+    const emailInput = screen.getByPlaceholderText(
+      /Email address/i
+    ) as HTMLInputElement;
 
     fireEvent.change(emailInput, { target: { value: "test@example.com" } });
     expect(emailInput.value).toBe("test@example.com");

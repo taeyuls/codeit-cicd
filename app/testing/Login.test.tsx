@@ -1,9 +1,7 @@
+import Login from "@/app/testing/Login";
 import "@testing-library/jest-dom";
-import "@testing-library/jest-dom/extend-expect";
-import { fireEvent, render, screen } from "@testing-library/react";
-import Login from "app/testing/Login";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import axios from "axios";
-
 jest.mock("axios");
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
@@ -36,15 +34,13 @@ describe("Login Component", () => {
       target: { value: "password" },
     });
     fireEvent.click(screen.getByText(/Submit/i));
-
-    const successMessage = await screen.findByRole("alert", {
-      name: /Congrats! You're signed in!/i,
+    await waitFor(() => {
+      expect(screen.getByRole("alert")).toHaveTextContent(
+        "Congrats! You're signed in!"
+      );
+      expect(window.localStorage.getItem("token")).toBe(token);
     });
-
-    expect(successMessage).toBeInTheDocument();
-    expect(window.localStorage.getItem("token")).toBe(token);
   });
-
   test("로그인 실패 시 에러 메시지가 표시된다.", async () => {
     const errorMessage = "Invalid credentials";
     mockedAxios.post.mockRejectedValueOnce(new Error(errorMessage));
@@ -57,12 +53,11 @@ describe("Login Component", () => {
       target: { value: "wrongpassword" },
     });
     fireEvent.click(screen.getByText(/Submit/i));
-
-    const errorAlert = await screen.findByRole("alert", {
-      name: /Invalid credentials/i,
+    await waitFor(() => {
+      expect(screen.getByRole("alert")).toHaveTextContent(
+        "Invalid credentials"
+      );
+      expect(window.localStorage.getItem("token")).toBeNull();
     });
-
-    expect(errorAlert).toBeInTheDocument();
-    expect(window.localStorage.getItem("token")).toBeNull();
   });
 });
