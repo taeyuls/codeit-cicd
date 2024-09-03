@@ -197,12 +197,15 @@ const config = {
 module.exports = {
   preset: "ts-jest",
   testEnvironment: "jsdom", // `jsdom`을 사용하여 DOM API를 사용하도록 설정
-  moduleFileExtensions: ["ts", "tsx", "js", "jsx"], // JSX 확장자 추가
+  moduleFileExtensions: ["**/__tests__/**/*.ts", "**/?(*.)+(spec|test).ts"], // JSX 확장자 추가
   transform: {
     "^.+\\.(ts|tsx)$": "ts-jest", // TypeScript 파일은 ts-jest로 처리
     "^.+\\.(js|jsx)$": "babel-jest", // JavaScript 및 JSX 파일은 babel-jest로 처리
   },
-  testMatch: ["**/?(*.)+(test).[tj]s?(x)"], // test 파일 패턴
+  collectCoverage: true,
+  coverageDirectory: "coverage",
+  coverageReporters: ["text", "lcov"],
+  testMatch: ["ts", "tsx", "js", "jsx", "json", "node"], // test 파일 패턴
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/$1", // 절대 경로를 설정합니다.
   },
