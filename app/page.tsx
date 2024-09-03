@@ -16,6 +16,7 @@ export default function Home() {
       >
         <h1 className="text-4xl font-bold">Features</h1>
       </section>
+      <SpeedInsights />
       <section className="h-screen flex items-center justify-center bg-gray-300">
         <h1 className="text-4xl font-bold">Portfolio</h1>
       </section>
