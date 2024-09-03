@@ -1,5 +1,4 @@
 "use client";
-
 import axios from "axios";
 import * as React from "react";
 
@@ -11,7 +10,6 @@ interface InputElements extends HTMLFormControlsCollection {
 interface FormElement extends HTMLFormElement {
   readonly elements: InputElements;
 }
-
 function Login() {
   const [state, setState] = React.useState({
     resolved: false,
@@ -44,11 +42,11 @@ function Login() {
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="usernameInput">Username</label>
-          <input id="usernameInput" />
+          <input id="usernameInput" name="username" required />
         </div>
         <div>
           <label htmlFor="passwordInput">Password</label>
-          <input id="passwordInput" type="password" />
+          <input id="passwordInput" name="password" type="password" required />
         </div>
         <button type="submit">Submit{state.loading ? "..." : null}</button>
       </form>
