@@ -9,8 +9,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="ko">
       <head></head>
       <body>
-        <Navbar />
         <SpeedInsights />
+        <Navbar />
         <div className="min-h-screen flex flex-col">
           <main className="flex-grow p-4">{children}</main>
           <Footer />
