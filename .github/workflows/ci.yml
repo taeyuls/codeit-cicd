@@ -27,9 +27,6 @@ jobs:
       - name: Run tests with coverage
         run: npm test -- --coverage # 커버리지 옵션 추가
 
-      - name: Run tests
-        run: npm test
-
       - name: Build project
         run: npm run build
 
@@ -45,4 +42,4 @@ jobs:
           name: codecov-umbrella
           fail_ci_if_error: true
         env:
-          CODECOV_TOKEN: ${{ secrets.84160d0f-4975-4d17-bad3-0f9aa58b38bd }} # Codecov 토큰 (GitHub Secrets에 설정 필요)
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }} # Codecov 토큰 (GitHub Secrets에 설정 필요)
