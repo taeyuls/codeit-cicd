@@ -1,0 +1,51 @@
+name: PR Coverage Check
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests with coverage
+        run: npm test -- --coverage
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/lcov.info # Jest가 생성한 커버리지 리포트 파일
+          flags: unittests
+          name: codecov-umbrella
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }} # Codecov 토큰 (GitHub Secrets에 설정 필요)
+
+  comment:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Check for existing coverage report
+        run: test -f ./coverage/lcov.info
+
+      - name: Upload coverage report to Codecov and post comment
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/lcov.info
+          flags: unittests
+          name: codecov-comment
+          commit_parent: ${{ github.event.pull_request.head.sha }}
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
