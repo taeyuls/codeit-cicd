@@ -1,5 +1,4 @@
 import { withSentryConfig } from "@sentry/nextjs";
-import { withSpeedInsights } from "@vercel/speed-insights/next";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -21,7 +20,5 @@ const sentryOptions = {
   automaticVercelMonitors: true,
 };
 
-// Sentry와 Speed Insights 통합 적용
-const configWithSentry = withSentryConfig(nextConfig, sentryOptions);
-
-export default withSpeedInsights(configWithSentry);
+// Sentry 통합 적용
+export default withSentryConfig(nextConfig, sentryOptions);
