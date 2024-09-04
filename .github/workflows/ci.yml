@@ -24,6 +24,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Run tests with coverage
+        run: npm test -- --coverage # 커버리지 옵션 추가
+
       - name: Run tests
         run: npm test
 
@@ -33,3 +36,13 @@ jobs:
       - name: Deploy to production
         if: github.ref == 'refs/heads/main'
         run: echo "Deploying to production..."
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/lcov.info # Jest가 생성한 커버리지 리포트 파일
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: true
+        env:
+          CODECOV_TOKEN: ${{ secrets.84160d0f-4975-4d17-bad3-0f9aa58b38bd }} # Codecov 토큰 (GitHub Secrets에 설정 필요)
