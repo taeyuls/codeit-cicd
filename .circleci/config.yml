@@ -1,38 +1,43 @@
 # Use the latest 2.1 version of CircleCI pipeline process engine.
-# See: https://circleci.com/docs/configuration-reference
 version: 2.1
+
 orbs:
   cypress: cypress-io/cypress@3
-workflows:
-  build:
-    jobs:
-      - cypress/run:
-          start-command: 'npm run start'
 
-# Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/jobs-steps/#jobs-overview & https://circleci.com/docs/configuration-reference/#jobs
 jobs:
-  say-hello:
-    # Specify the execution environment. You can specify an image from Docker Hub or use one of our convenience images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/executor-intro/ & https://circleci.com/docs/configuration-reference/#executor-job
+  # Cypress E2E 테스트 작업
+  cypress-run:
     docker:
-      # Specify the version you desire here
-      # See: https://circleci.com/developer/images/image/cimg/base
-      - image: cimg/base:current
-
-    # Add steps to the job
-    # See: https://circleci.com/docs/jobs-steps/#steps-overview & https://circleci.com/docs/configuration-reference/#steps
+      - image: cypress/base:16 # Cypress에서 지원하는 Node.js와 브라우저가 포함된 이미지 사용
     steps:
-      # Checkout the code as the first step.
+      - checkout # 소스 코드 체크아웃
+      - run:
+          name: Install dependencies
+          command: npm install # 프로젝트의 종속성 설치
+      - run:
+          name: Start server
+          command: npm run start & # 애플리케이션 서버 시작 (백그라운드에서 실행)
+      - cypress/run:
+          start-command: "npm run start" # Cypress 실행
+
+  # Simple hello job
+  say-hello:
+    docker:
+      - image: cimg/base:current
+    steps:
       - checkout
       - run:
           name: "Say hello"
           command: "echo Hello, World!"
 
-# Orchestrate jobs using workflows
-# See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
+# Workflows 섹션
 workflows:
-  say-hello-workflow: # This is the name of the workflow, feel free to change it to better match your workflow.
-    # Inside the workflow, you define the jobs you want to run.
+  # 기존의 say-hello-workflow와 별개로, build 워크플로우를 정의합니다.
+  build:
+    jobs:
+      - cypress-run
+
+  # 기존의 say-hello-workflow
+  say-hello-workflow:
     jobs:
       - say-hello
